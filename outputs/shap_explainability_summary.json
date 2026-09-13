@@ -1,0 +1,127 @@
+[
+  {
+    "class_id": 0,
+    "class_name": "Wildfire",
+    "gps": "19.889, 80.118",
+    "frp_mw": "4.1 MW",
+    "features_used": [
+      "latitude",
+      "longitude",
+      "brightness",
+      "frp",
+      "elevation",
+      "land_cover_code",
+      "tropomi_no2"
+    ],
+    "leakage_excluded": [
+      "is_industrial",
+      "is_wildfire",
+      "is_gas_flare"
+    ],
+    "decision_reasons": [
+      "`land_cover_code` = 10.000 (+0.731 log-odds)",
+      "`longitude` = 80.118 (+0.441 log-odds)",
+      "`elevation` = 301.000 (+0.276 log-odds)"
+    ]
+  },
+  {
+    "class_id": 1,
+    "class_name": "Agricultural",
+    "gps": "18.607, 78.366",
+    "frp_mw": "6.1 MW",
+    "features_used": [
+      "latitude",
+      "longitude",
+      "brightness",
+      "frp",
+      "elevation",
+      "land_cover_code",
+      "tropomi_no2"
+    ],
+    "leakage_excluded": [
+      "is_industrial",
+      "is_wildfire",
+      "is_gas_flare"
+    ],
+    "decision_reasons": [
+      "`land_cover_code` = 40.000 (+0.722 log-odds)",
+      "`tropomi_no2` = 0.000 (+0.297 log-odds)",
+      "`brightness` = 340.720 (+0.271 log-odds)"
+    ]
+  },
+  {
+    "class_id": 2,
+    "class_name": "Industrial Persistent",
+    "gps": "11.816, 77.918",
+    "frp_mw": "0.7 MW",
+    "features_used": [
+      "latitude",
+      "longitude",
+      "brightness",
+      "frp",
+      "elevation",
+      "land_cover_code",
+      "tropomi_no2"
+    ],
+    "leakage_excluded": [
+      "is_industrial",
+      "is_wildfire",
+      "is_gas_flare"
+    ],
+    "decision_reasons": [
+      "`latitude` = 11.816 (+1.268 log-odds)",
+      "`land_cover_code` = 50.000 (+0.867 log-odds)",
+      "`frp` = 0.650 (+0.581 log-odds)"
+    ]
+  },
+  {
+    "class_id": 3,
+    "class_name": "Gas Flare",
+    "gps": "27.379, 95.088",
+    "frp_mw": "0.3 MW",
+    "features_used": [
+      "latitude",
+      "longitude",
+      "brightness",
+      "frp",
+      "elevation",
+      "land_cover_code",
+      "tropomi_no2"
+    ],
+    "leakage_excluded": [
+      "is_industrial",
+      "is_wildfire",
+      "is_gas_flare"
+    ],
+    "decision_reasons": [
+      "`longitude` = 95.088 (+4.414 log-odds)",
+      "`elevation` = 107.000 (+1.788 log-odds)",
+      "`frp` = 0.340 (+0.998 log-odds)"
+    ]
+  },
+  {
+    "class_id": 4,
+    "class_name": "Accidental Fire",
+    "gps": "23.678, 86.081",
+    "frp_mw": "8.7 MW",
+    "features_used": [
+      "latitude",
+      "longitude",
+      "brightness",
+      "frp",
+      "elevation",
+      "land_cover_code",
+      "tropomi_no2"
+    ],
+    "leakage_excluded": [
+      "is_industrial",
+      "is_wildfire",
+      "is_gas_flare"
+    ],
+    "decision_reasons": [
+      "`tropomi_no2` = 0.000 (+1.497 log-odds)",
+      "`frp` = 8.700 (+1.444 log-odds)",
+      "`land_cover_code` = 10.000 (-0.811 log-odds)"
+    ]
+  }
+]

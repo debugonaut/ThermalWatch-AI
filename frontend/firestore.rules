@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow reading and updating site stats counters
+    match /site_stats/{docId} {
+      allow read, write: if true;
+    }
+    // Allow creating visit logs; prevent deletion or updates from client
+    match /site_visits/{visitId} {
+      allow create: if true;
+      allow read: if true;
+      allow update, delete: if false;
+    }
+  }
+}

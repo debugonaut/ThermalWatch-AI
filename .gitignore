@@ -1,0 +1,41 @@
+# Node & Build Artifacts
+node_modules/
+dist/
+dist-ssr/
+*.local
+.npm/
+.vite/
+
+# Environment and Secrets
+.env
+.env.*
+!.env.example
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python & Machine Learning Binaries
+__pycache__/
+*.py[cod]
+*$py.class
+*.pth
+*.pkl
+*.npy
+*.h5
+*.onnx
+
+# Large Map Binaries (>100MB blocked by GitHub)
+*.pmtiles
+!frontend/public/data/india_matched_hexbins.pmtiles
+
+# Datasets and Geo-rasters
+*.tif
+*.tiff
+*.nc
+*.nc4
+*.h5
+*.csv
+!frontend/public/data/*.csv
