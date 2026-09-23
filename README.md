@@ -34,12 +34,13 @@ No model-performance scores are reported in this README. They will be published 
 10. [Evaluation contract](#evaluation-contract)
 11. [Dashboard and GIS experience](#dashboard-and-gis-experience)
 12. [Scientific data integrity](#scientific-data-integrity)
-13. [Project status](#project-status)
-14. [Documentation checkpoints and repository boundary](#documentation-checkpoints-and-repository-boundary)
-15. [Repository structure](#repository-structure)
-16. [Local development](#local-development)
-17. [Limitations](#limitations)
-18. [Roadmap](#roadmap)
+13. [Evidence-audit checkpoint](#evidence-audit-checkpoint)
+14. [Project status](#project-status)
+15. [Documentation checkpoints and repository boundary](#documentation-checkpoints-and-repository-boundary)
+16. [Repository structure](#repository-structure)
+17. [Local development](#local-development)
+18. [Limitations](#limitations)
+19. [Roadmap](#roadmap)
 
 ---
 
@@ -444,6 +445,126 @@ If a required source cannot be obtained or validated, the pipeline stops and rep
 
 ---
 
+## Evidence-audit checkpoint
+
+- **Checkpoint date:** 24 September 2026
+- **Scope:** the declared research and official-document library used to design the five-class evidence system
+- **Result:** structural audit passed; scientific readiness is **not ready** for label generation
+- **Evidence-manifest SHA-256:** `c1ad0bb6a11adcf73c2a18b5b696002abb38a1fa3df4cefec25077b5460d094f`
+- **Claim-matrix SHA-256:** `4b83cda42e595b793a9cc975e815275cf617cbe7c86640a00bf76e7da6f19261`
+
+The private development workspace now has a source-by-source disposition for all **56 of 56** declared documents and a page-anchored corpus covering **2,974 pages**. The resulting evidence matrix contains **78 claim records from 35 documents: 77 page-verified excerpts and one explicit unsourced gap record**. Every one of the 55 class-requirement cells resolves to cited evidence, an explicit team-policy decision or a named evidence gap.
+
+This checkpoint did not generate a target column, choose class weights, create the 80:20 split or train a model. The audit found **zero literature claims that may independently assign one of the five causes** and **zero voting signals currently certified as ready**. Six proposed signals also overlap the current model features and must remain non-voting until the team freezes a disjoint label/feature contract.
+
+The evidence is still useful: it defines valid sensor QA, product boundaries, contextual signals, known confounders, source latency and the only accepted authority-match route. It also prevents invalid transfers such as applying VIIRS Nightfire source-temperature thresholds to FIRMS brightness.
+
+<details>
+<summary><strong>Complete 56-document evidence-library inventory</strong></summary>
+
+The identifiers below are the exact names used by the versioned manifest and page-level audit.
+
+**VIIRS, MODIS and FIRMS**
+
+1. `01_MODIS_C6_ActiveFire_Algorithm_Giglio2016.pdf`
+2. `01_MODIS_C6_ActiveFire_User_Guide_B.pdf`
+3. `01_MODIS_C6_ActiveFire_User_Guide_C.pdf`
+4. `01_MODIS_C6_C6.1_ActiveFire_User_Guide_v1.0.pdf`
+5. `01_NOAA_NDE_ActiveFire_ATBD_v2.6.pdf`
+6. `01_Performance_MODIS_VIIRS_ActiveFire_Products_SISEF.pdf`
+7. `01_VIIRS_375m_ActiveFire_User_Guide_NASA.pdf`
+8. `01_VIIRS_ActiveFire_SuomiNPP_Csiszar2014_JGR.pdf`
+9. `01_VIIRS_Collection2_375m_User_Guide_v1.2_NASA2025.pdf`
+10. `01_VIIRS_Iband_ActiveFire_ATBD_v1.0_NOAA.pdf`
+
+**Forest fire evidence for India**
+
+11. `02_FSI_Forest_Fire_Burnt_Area_Mapping.pdf`
+12. `02_FSI_Forest_Fire_Risk_Zone_Mapping.pdf`
+13. `02_FSI_Surface_Fuel_Load_Mapping.pdf`
+14. `02_FSI_Technical_Information_Series_v1n2.pdf`
+15. `02_FSI_Technical_Information_Series_v2n2.pdf`
+16. `02_FSI_Vulnerability_of_Indias_Forests_to_Fires_2012.pdf`
+17. `02_Forest_Fires_in_India_ICFRE.pdf`
+
+**Agricultural-residue burning**
+
+18. `03_Connecting_CropProductivity_ResidueFires_AirQuality_Jethva2019.pdf`
+19. `03_Estimating_Emissions_Crop_Residue_Open_Burning_Li2022.pdf`
+20. `03_MODIS_VIIRS_Intercomparison_Agricultural_Fires_India_Vadrevu2018.pdf`
+21. `03_Monitoring_Paddy_Residue_Burning_Active_Fire_Chhabra2019.pdf`
+22. `03_PostMonsoon_CropResidueBurning_PM25_NorthIndia_Kajino2025.pdf`
+23. `03_Predictability_PostMonsoon_CropResidue_Fires_Jethva2022.pdf`
+24. `03_Satellite_BlindSpot_CropResidue_Punjab_vanderVelde2026.pdf`
+
+**Industrial heat sources**
+
+25. `04_Annual_Dynamics_Global_Industrial_Heat_Sources_Ma2024.pdf`
+26. `04_Identification_Industrial_Heat_Sources_LongTerm_Thermal_Liu2026.pdf`
+27. `04_Industrial_Heat_Source_Identification_Thermal_Anomaly_Ma2022.pdf`
+
+**Gas flaring**
+
+28. `05_Global_Survey_Natural_Gas_Flaring_VIIRS_Elvidge2016.pdf`
+29. `05_VIIRS_Nightfire_SuperResolution_GasFlare_Sites_Zhizhin2026.pdf`
+30. `05_WorldBank_GasFlare_Volume_Estimation_Methodology.pdf`
+31. `05_WorldBank_Global_Gas_Flaring_Tracker_2023.pdf`
+
+**Industrial and sudden thermal anomalies**
+
+32. `06_OnBoard_Thermal_Anomaly_Detection_Thoemel2024.pdf`
+33. `06_RealTime_RemoteSensing_Sudden_Surface_Anomalies_Yan2025.pdf`
+34. `06_Satellite_Thermal_Anomalies_Deformation_Peleli2022.pdf`
+
+**INSAT**
+
+35. `07_INSAT_3D_ATBD_May2015_MOSDAC.pdf`
+36. `07_INSAT_ActiveFire_ATBD_MOSDAC.pdf`
+
+**Himawari and geostationary fire products**
+
+37. `08_Adapted_Hourly_Himawari8_Fire_Product_China_Chen2023.pdf`
+38. `08_CAMS_FRP_GOES_Himawari_Product_User_Manual.pdf`
+39. `08_Fused_Satellite_Diurnal_Fire_Cycles_RemoteSensing_18_52.pdf`
+40. `08_Geostationary_Himawari_Polar_VIIRS_Agricultural_Fires_Zhang2020.pdf`
+41. `08_Himawari8_MultiResolution_Fire_Detection_Wickramasinghe2016.pdf`
+
+**TROPOMI atmospheric products**
+
+42. `09_TROPOMI_L2_NO2_ATBD_2024.pdf`
+43. `09_TROPOMI_L2_NO2_Product_User_Manual_Copernicus.pdf`
+44. `09_TROPOMI_L2_SO2_ATBD_2025.pdf`
+45. `09_TROPOMI_L2_SO2_Product_User_Manual_2024.pdf`
+
+**Topography and wildfire susceptibility**
+
+46. `10_Integrated_Approach_Wildfire_Risk_Assessment_Chuvieco2023.pdf`
+47. `10_Wildfire_Susceptibility_LandUse_Topography_Zhai2023.pdf`
+
+**Weak supervision**
+
+48. `11_Data_Programming_Fast_Strong_Learning_Ratner2016.pdf`
+49. `11_Snorkel_Rapid_Training_Data_Creation_Weak_Supervision_Ratner2017.pdf`
+
+**Incremental learning and delayed feedback**
+
+50. `12_Evolving_ML_NonStationary_Environments_Survey_Martin2025.pdf`
+51. `12_Label_Delay_in_Online_Continual_Learning_Csaba2024.pdf`
+52. `12_Learning_under_Concept_Drift_Overview.pdf`
+53. `12_Online_Learning_under_Delayed_Feedback_Joulani.pdf`
+
+**Official context-product manuals**
+
+54. `90_CAMS_Reanalysis_Atmospheric_Composition_Inness2019.pdf`
+55. `90_ESA_WorldCover_Product_User_Manual_v2.0.pdf`
+56. `90_SRTM_Collection_User_Guide_V3_USGS.pdf`
+
+</details>
+
+The next research checkpoint is not “find a paper for every desired rule.” It is to resolve the explicitly recorded blockers: separate label inputs from model features, freeze the evidence-grade training policy, define the no-vote/conflict behaviour, and obtain compatible independent evidence for classes that remain unsupported.
+
+---
+
 ## Project status
 
 | Component | Status | Notes |
@@ -454,9 +575,10 @@ If a required source cannot be obtained or validated, the pipeline stops and rep
 | Daily 2024 playback | **Implemented** | Bundled day-indexed map assets |
 | Optical/thermal comparison | **Implemented as prototype** | Interface capability; imagery provenance must remain explicit |
 | Emergency drill interface | **Implemented as simulation** | Must remain visibly separated from observations |
-| Evidence library and claim audit | **Completed in development workspace** | Public reproducibility artifacts are to be migrated |
-| Evidence-grade schema | **Designed** | UI and storage integration pending |
-| Versioned labelling-function registry | **In progress** | Legacy target generation will be replaced |
+| Evidence library and claim audit | **Completed** | 56/56 sources dispositioned; 2,974 pages; 78 claims across 35 documents |
+| Evidence completeness and labelability audit | **Completed — not ready for labels** | Structural validation passes; zero voting signals are currently certified READY |
+| Evidence-grade schema | **Approved design** | UI and storage integration pending |
+| Versioned labelling-function registry | **Blocked before implementation** | Evidence, feature-disjointness and team-policy blockers must be resolved first |
 | Audited 2024 80:20 split | **Planned after label certification** | No model training before the split is frozen |
 | Stage-specific model training | **Pending** | Training is run separately after all gates pass |
 | Progressive `S0`–`S4` inference | **Designed** | Connectors and revision store pending |
@@ -577,7 +699,10 @@ The repository includes large static map assets for demonstration. These files a
 
 ```text
 Evidence library and admissibility audit
-        -> finalise operational signal weights and conflict policy
+        -> complete 56-source evidence-completeness audit
+        -> resolve feature-disjointness, training-eligibility and conflict-policy blockers
+        -> obtain compatible evidence for unsupported classes or keep them review-only
+        -> certify operational signal weights and abstention behaviour
         -> implement the labelling-function registry
         -> generate evidence-graded 2024 labels
         -> audit coverage, abstentions and conflicts
