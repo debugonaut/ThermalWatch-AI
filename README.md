@@ -1,550 +1,574 @@
-# 🛰️ ThermalWatch AI
-### *India's First Zero-Leakage, Multi-Modal Satellite Thermal Intelligence System*
+# ThermalWatch AI
 
-> **Smart India Hackathon 2026 · National Defence & Disaster Security Domain**  
-> *AI-Driven Detection, Multi-Modal Categorisation & Emergency Triaging of Industrial Fires, Gas Flares, Crop Stubble, and Forest Wildfires Across India*
+### Context-aware satellite thermal intelligence for India
 
-[![Live Dashboard](https://img.shields.io/badge/Live%20Prototype-sih26ekaant.web.app-00C781?style=for-the-badge&logo=googlechrome&logoColor=white)](https://sih26ekaant.web.app)
-[![Operational Field Accuracy](https://img.shields.io/badge/Field%20Accuracy-93.40%25-4CAF50?style=for-the-badge)](https://sih26ekaant.web.app)
-[![Zero-Leakage Macro F1](https://img.shields.io/badge/Authentic%20Macro%20F1%20%282026%29-88.17%25-2196F3?style=for-the-badge)](https://sih26ekaant.web.app)
-[![Detection Cadence](https://img.shields.io/badge/Detection%20Cadence-10%E2%80%9315%20Min-0288D1?style=for-the-badge&logo=satellite)](https://sih26ekaant.web.app)
-[![License: MIT](https://img.shields.io/badge/License-MIT-F57C00?style=for-the-badge)](LICENSE)
+> Smart India Hackathon 2026 · Industrial thermal anomaly classification and geospatial monitoring
 
----
+[![Live prototype](https://img.shields.io/badge/Live%20prototype-sih26ekaant.web.app-2563eb?style=flat-square)](https://sih26ekaant.web.app)
+[![Project status](https://img.shields.io/badge/Status-Research%20prototype-f59e0b?style=flat-square)](#project-status)
+[![Data policy](https://img.shields.io/badge/Data%20policy-No%20synthetic%20fallbacks-16a34a?style=flat-square)](#scientific-data-integrity)
+[![License](https://img.shields.io/badge/License-MIT-111827?style=flat-square)](LICENSE)
 
-## 📑 Table of Contents
+ThermalWatch AI is a proposed Pan-India decision-support system for detecting, classifying, explaining and monitoring satellite-observed thermal anomalies. It is designed for the central difficulty of the SIH problem statement: a thermal pixel shows that heat was detected, but it does not by itself establish whether the source is a wildfire, agricultural burning, an industrial process, a gas flare or an industrial accident.
 
-1. [The Problem: India's Burning Blind Spot](#1-the-problem-indias-burning-blind-spot)
-2. [The SIH 2026 Challenge Brief](#2-the-sih-2026-challenge-brief)
-3. [Our Breakthrough: The Dual-Mode Architecture](#3-our-breakthrough-the-dual-mode-architecture)
-4. [Phase 0 — Building the Observational Constellation](#4-phase-0--building-the-observational-constellation-9-sensors-zero-shortcuts)
-5. [Phase 1 — Acquiring 2026 Telemetry: 1.1 Million Real Satellite Points](#5-phase-1--acquiring-2026-telemetry-11-million-real-satellite-points)
-6. [Phase 2 — Forensic Sanitisation of the 2024 Baseline](#6-phase-2--forensic-sanitisation-of-the-2024-baseline-hunting-the-contamination)
-7. [Phase 3 — The 2024→2026 Combined Retraining: Three Models, Three Modalities](#7-phase-3--the-20242026-combined-retraining-three-models-three-modalities)
-8. [Phase 6 — The Meta-Learner: Fusing Everything into One Verdict](#8-phase-6--the-meta-learner-fusing-everything-into-one-verdict)
-9. [Phase 7 — Stress Testing the Truth: 5 Forensic Probes on Unseen 2026 Data](#9-phase-7--stress-testing-the-truth-5-forensic-probes-on-unseen-2026-data)
-10. [The 88% vs. 90% Verdict: Why Our Number is Worth More](#10-the-88-vs-90-verdict-why-our-number-is-worth-more)
-11. [Phase 8 — 2026 Classification: The Moment of Truth](#11-phase-8--2026-classification-the-moment-of-truth)
-12. [The Intelligence Dashboard: Live in Your Browser](#12-the-intelligence-dashboard-live-in-your-browser)
-13. [Repository Structure](#13-repository-structure)
-14. [Quickstart](#14-quickstart)
-15. [Sovereign IP Disclosure](#15-sovereign-ip-disclosure)
+The final system will combine thermal observations, land cover, terrain, facility context, temporal persistence, geostationary monitoring, optical imagery and delayed atmospheric products. It will issue one operational class for every eligible detection while preserving the distinction between an authority-verified event and a context-supported hypothesis.
+
+> [!IMPORTANT]
+> This repository currently contains the interactive geospatial dashboard and visualization assets. The evidence-graded labelling registry, progressive live-inference services and newly trained model artifacts described below are the target architecture and are still being integrated. Existing visualization labels must not be interpreted as independently verified causes.
+
+No model-performance scores are reported in this README. They will be published only after the new evidence contract, isolated holdout and final training pipeline have been completed and audited.
 
 ---
 
-## 1. The Problem: India's Burning Blind Spot
+## Table of contents
 
-Every year, satellite sensors detect over **1.37 million thermal hotspots** across India. Yet the National Disaster Management Authority, state fire services, defence installations, and industrial regulators operate under an acute crisis caused by two failures that no existing system has solved simultaneously.
-
-### Failure 1: Thermal Radiance Ambiguity — Everything Looks the Same
-
-A satellite sensor measuring mid-infrared radiance at 3.9 µm detects heat. It does not know *why* the ground is hot. When NASA FIRMS publishes a fire alert, the ground beneath it could be:
-
-- A seasonal **paddy stubble fire** in Ludhiana set by a farmer at noon,
-- A continuous **petrochemical refinery flare** at the Reliance complex in Jamnagar,
-- A **blast furnace** at Tata Steel in Jamshedpur that has been running for eight years,
-- A high-canopy **forest wildfire** advancing across Uttarakhand ridgelines, or
-- A catastrophic **boiler rupture** or **fuel depot explosion** that is right now killing people.
-
-All five look nearly identical on a single temperature threshold. The global baseline tool — NASA FIRMS — generates **30% to 40% false alarm rates** on Indian industrial terrain. Defence commanders suffer alarm fatigue. Catastrophic events get buried in noise.
-
-### Failure 2: The Fatal 3-to-6 Hour Polar Orbit Gap
-
-NASA's VIIRS and MODIS sensors are world-class instruments — but they orbit in sun-synchronous polar tracks passing over any Indian coordinate only **twice per day**. If a boiler explodes at 10:00 AM, the first orbital pass may not occur until 1:30 PM. Processed FIRMS alerts arrive by 3:00 PM. By then, five hours have passed, the fire has spread kilometres, and the window for aerial containment is closed.
-
-> **This is not a data shortage problem. It is a classification and latency problem.** ThermalWatch AI was built to solve both simultaneously.
+1. [Problem statement](#problem-statement)
+2. [What the final project will do](#what-the-final-project-will-do)
+3. [Five operational classes](#five-operational-classes)
+4. [Evidence contract](#evidence-contract)
+5. [End-to-end architecture](#end-to-end-architecture)
+6. [Progressive live inference](#progressive-live-inference)
+7. [Data sources and roles](#data-sources-and-roles)
+8. [Context-aware labelling](#context-aware-labelling)
+9. [Training and data separation](#training-and-data-separation)
+10. [Evaluation contract](#evaluation-contract)
+11. [Dashboard and GIS experience](#dashboard-and-gis-experience)
+12. [Scientific data integrity](#scientific-data-integrity)
+13. [Project status](#project-status)
+14. [Repository structure](#repository-structure)
+15. [Local development](#local-development)
+16. [Limitations](#limitations)
+17. [Roadmap](#roadmap)
 
 ---
 
-## 2. The SIH 2026 Challenge Brief
+## Problem statement
 
-The Smart India Hackathon 2026 problem statement — filed under the **National Defence & Disaster Security** domain — asked for a system that could:
+Industrial facilities produce thermal signatures that can be detected from space. The same is true for wildfires, agricultural residue burning and other natural or human-caused heat sources. NASA FIRMS is extremely useful for locating thermal anomalies, but a FIRMS detection is not a causal label.
 
-- **Identify and differentiate** thermal anomalies from satellite data across India in real time.
-- **Classify accidental industrial fires** from routine operational heat sources.
-- **Generate actionable alerts** for disaster management and defence establishments.
-- **Demonstrate a working prototype** with live telemetry integration.
+The project therefore addresses two connected problems:
 
-The deliverables required a functioning system, not a presentation. Our team took that mandate literally.
+1. **Classification ambiguity** — multiple sources can produce similar brightness-temperature and Fire Radiative Power observations.
+2. **Asynchronous evidence** — relevant sensors and contextual datasets do not arrive at the same time.
 
----
+A useful operational system must not wait several days before showing anything, but it must also not pretend that the first available thermal observation contains evidence that has not arrived yet. ThermalWatch AI is designed to make an early, explicitly qualified assessment and revise it as additional evidence becomes available.
 
-## 3. Our Breakthrough: The Dual-Mode Architecture
+The system is intended to support:
 
-Rather than building a single-mode system, ThermalWatch AI operates under a dual-mode architectural framework that lets evaluators understand both our historical scientific rigour and our real-time operational capability — in the same interface, in the same session.
+- segregation of industrial thermal activity from forest and other natural fires;
+- identification of persistent industrial heat and routine gas flaring;
+- review of unusual thermal events near industrial infrastructure;
+- Pan-India storage, filtering and temporal monitoring;
+- GIS overlays for thermal detections, facilities, land cover and imagery;
+- reproducible explanations for every displayed classification.
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    THERMALWATCH AI: DUAL-MODE FRAMEWORK                  │
-└─────────────────────────────────────────────────────────────────────────┘
-
-     ┌──────────────────────────────┐     ┌──────────────────────────────┐
-     │   2024 HISTORICAL ARCHIVE    │     │     2026 LIVE SIMULATION     │
-     │   (1,104,829 Curated Points) │     │   (1,122,565 Unseen Stream)  │
-     └──────────────┬───────────────┘     └───────────────┬──────────────┘
-                    │                                     │
-      365-Day Temporal Scrubber             10-15 Min Geostationary Cadence
-      PMTiles Hexbin Density Tiles          Timecoded Freshness Gradient
-      FSI Forest Reserve Boundaries         Z-Score Hazard Sirens (>3.0 sigma)
-      Spatial Block Holdout Benchmark       Panipat Refinery Drill Modal
-      Annual Stubble Burning Cycles         Live Satellite Pass Countdown
-```
-
-The **2024 mode** is our scientific proof — a forensically cleaned, block-validated retrospective of 1.10 million real satellite events, complete with diurnal heat curves and SHAP explainability receipts. The **2026 mode** is our operational demonstration — a live satellite telemetry stream showing every classified hotspot in the last 24 hours, with real emergency sirens that trigger on genuine FRP anomalies.
+It is a decision-support system. It does not replace emergency services, plant operators, forest departments or other competent authorities.
 
 ---
 
-## 4. Phase 0 — Building the Observational Constellation: 9 Sensors, Zero Shortcuts
+## What the final project will do
 
-Before writing a single line of model code, we had to answer a foundational question: *what sensor combination can physically resolve the five fire classes, and why?*
+For every eligible thermal detection, the final workflow will:
 
-The answer required nine separate data streams. Each was chosen not for convenience but because it contributes a physically irreplaceable signal that no other sensor provides:
+```text
+Receive a genuine thermal observation
+        -> validate provenance, units, time and geography
+        -> attach the context available at that moment
+        -> evaluate versioned evidence signals
+        -> assign one operational class
+        -> attach an evidence grade and structured trace
+        -> display the result on the GIS dashboard
+        -> revise the assessment when delayed evidence arrives
+        -> preserve every stage for audit and comparison
+```
 
-| ID | Source | Agency | What It Resolves | Why Irreplaceable |
-|:---:|:---|:---|:---|:---|
-| **D1** | **NASA FIRMS VIIRS** | NASA / Suomi-NPP + NOAA-20 | 375m sub-km brightness & FRP | Gold-standard thermal precision; 48.6% + 45.3% of all detections |
-| **D2** | **ISRO MOSDAC INSAT-3DR/3DS** | ISRO SAC | 15-min geostationary cadence | Eliminates polar latency; sovereign Indian data |
-| **D3** | **JAXA Himawari-9 AHI** | JAXA P-Tree | 10-min 144-step diurnal curves | Only sensor dense enough to reconstruct a fire's 24-hour heartbeat |
-| **D4** | **Copernicus Sentinel-5P / CAMS** | ESA / ECMWF | Tropospheric NO2, SO2, AOD | Chemical fingerprinting: stubble burns produce near-zero SO2; refineries produce >0.25 mDU continuously |
-| **D5** | **ECMWF ERA5-Land Weather** | ECMWF / Open-Meteo | Hourly wind, RH, VPD, Fosberg FWI | Physical fire spread engine; monsoon washout correction |
-| **D6** | **NOAA VIIRS Gas Flare Catalog** | NOAA / CSM | 165 sovereign Indian flare stacks | Ground-truth for every refinery and gas extraction site in India |
-| **D7** | **Sentinel-2 MSI 10m Chips** | ESA / AWS STAC COGs | Optical land cover context | 10m chips around each hotspot distinguish factory roofs from wheat fields |
-| **D8** | **ISRO NRSC Bhuvan Alerts** | ISRO NRSC | Sovereign disaster-grade KML feed | Independent Indian satellite ground truth; 33.5m median spatial agreement with FIRMS |
-| **D9** | **OpenAQ + CPCB CAAQMS** | CPCB / 567 stations | Physical PM2.5, SO2, NO2 ground levels | Cross-validates atmospheric plume models; 65.4% monsoon washout confirms authentic IoT telemetry |
+The system will never silently manufacture a missing input. If a sensor has not observed a location, is delayed, is outside its physical coverage or fails a quality check, the corresponding value remains unavailable and the trace records why.
 
-> **Key constraint we honoured:** No synthetic proxies. No mathematical formulas standing in for real measurements. Every one of these nine streams was acquired directly from its source API or FTP endpoint, forensically verified, and documented. Our governing protocol: *"No data is better than contaminated data."*
+### Design principles
+
+- **Heat detection is not cause attribution.**
+- **One displayed class does not imply equal evidence for every row.**
+- **Missing data remains missing.**
+- **Every quantitative rule is versioned and traceable to an admissible source.**
+- **Official incident evidence is kept separate from contextual evidence.**
+- **Live predictions can mature as new observations arrive.**
+- **Model retraining occurs only from audited label batches, not from unlabelled API traffic.**
 
 ---
 
-## 5. Phase 1 — Acquiring 2026 Telemetry: 1.1 Million Real Satellite Points
+## Five operational classes
 
-To validate our models against genuinely unseen data, we needed a complete 2026 year-to-date dataset that had never touched a training set. This was a serious acquisition operation spanning 255 calendar days.
+Every eligible detection will receive exactly one of the following operational classes:
 
-### What We Downloaded (Once)
+| Class | Operational meaning | Important boundary |
+|---|---|---|
+| **Wildfire** | A thermal event whose available evidence is most consistent with burning in forest or other wildland context | Forest location alone does not prove natural ignition |
+| **Agricultural Burning** | A thermal event whose available evidence is most consistent with crop-residue or field burning | Cropland and season are contextual signals, not incident verification |
+| **Industrial Persistent Heat** | Recurring or sustained heat associated with industrial infrastructure or operations | Facility proximity alone does not prove the facility caused the detection |
+| **Routine Gas Flare** | Persistent combustion consistent with a known or independently supported flare source | Persistence alone cannot establish a gas flare without compatible source evidence |
+| **Suspected Industrial Accident** | An unusual, non-routine thermal event near industrial infrastructure that requires urgent human review | This is an alerting hypothesis, not an automatic declaration that an accident occurred |
 
-| Dataset | Source | Volume | Coverage |
-|:---|:---|:---:|:---|
-| NASA FIRMS VIIRS 2026 | FIRMS country archive | **1,695,957 raw rows** (215 MB) | Jan 1 – Sep 12, 2026 |
-| ISRO MOSDAC INSAT-3DR/3DS FIR | MOSDAC API (2,910 KML files) | 36,089 geostationary events | 15-min cadence, full year |
-| JAXA Himawari-9 WLF Diurnal | JAXA P-Tree FTP | **255,282 diurnal curves**, shape `(255282, 144)` | 254 calendar days at 10-min cadence |
-| Copernicus CAMS Air Quality | Open-Meteo Air Quality API | 170,688 hourly hub readings | 28 cities × 254 days × 24 hours |
-| ECMWF ERA5-Land Weather | Open-Meteo Historical API | 170,688 hourly hub readings | Same 28-hub grid |
-| NOAA Gas Flare Catalog | CSM / EOG VIIRS Nightfire | 226 flare sites (165 sovereign) | 2024 baseline catalog |
-| ESA Sentinel-2 MSI Chips | AWS STAC Element84 COGs | **2,925 authentic L2A chips** | Cloud-free (<30%) scenes over fire centroids |
-| ISRO NRSC Bhuvan Fire Alerts | NRSC Bhuvan Portal (255 KMLs) | **339,642 sovereign alerts** | Jan 1 – Sep 12, 2026 |
-| OpenAQ / CPCB CAAQMS | OpenAQ v3 API | 121,215 station-days (567 stations) | 253 calendar days |
-
-Total raw staged volume: **~1,004 MB** of authentic physical satellite and ground telemetry.
-
-### What the Forensic Audit Caught
-
-We did not trust our own downloaders. After staging all nine datasets, a senior data researcher ran a full forensic audit — parameter-by-parameter, distribution testing, code lineage tracing, sensor physics verification. Three critical findings:
-
-**Finding 1 — INSAT-3DR upstream bug:** 51 rows contained brightness temperatures up to **303,318 K** — physically impossible (hydrocarbon fires peak around 380 K). Root cause: ISRO's MOSDAC automated export software concatenated floating-point numbers without whitespace delimiters in the KML `<address>` tag (e.g. `303314.04302.376314.212...`). Our regex parsed joined digits. Mitigation: filter to 270–450 K. The remaining 35,986 rows: 100% genuine ISRO telemetry.
-
-**Finding 2 — Gas Flare catalog contained 61 foreign sites:** A naive bounding box captured 53 sites in Pakistan and 8 in Bangladesh. After sovereign filtering: **165 authentic Indian flare stacks** retained (Mumbai High offshore rigs, Jamnagar, Hazira, Digboi, Barauni, Mathura).
-
-**Finding 3 — 20,000 Sentinel-2 chips were 100% synthetic:** A prior script had procedurally generated chips using four hardcoded spectral base profiles + Gaussian noise. The tell: Band 08 (NIR) standard deviation across 6,209 "agricultural" chips was **0.38 DN** — mathematically impossible in real satellite imagery (genuine variance exceeds 600 DN due to crop growth stage variation alone). This 655 MB file was **unconditionally rejected**. Replacement: 2,925 authentic ESA COG-sourced chips, each traceable to an official ESA scene identifier (e.g. `S2A_44QQL_20260317_0_L2A`).
-
-> **Audit verdict:** 7 of 9 datasets passed as 100% authentic physical satellite telemetry. 2 passed with qualified caveats (both corrected). The synthetic Sentinel-2 NPZ was unconditionally rejected and replaced with real data.
+The word **suspected** is part of the industrial-accident class contract. Only an official incident record or equivalent external authority evidence may upgrade a cause from a hypothesis to an asserted event.
 
 ---
 
-## 6. Phase 2 — Forensic Sanitisation of the 2024 Baseline: Hunting the Contamination
+## Evidence contract
 
-Our 2024 training corpus began as a raw archive of **1,695,957 hotspot detections** from NASA FIRMS covering all of 2024. Before any model sees a single row, the data went through four mandatory sanitisation passes.
+The final system separates the required operational class from the strength of evidence behind it.
 
-### Pass 1: Sovereign Geographic Masking
+| Evidence grade | Meaning | Permitted interpretation |
+|---|---|---|
+| `G_ASSERTED` | A compatible official record matches the observation under the declared spatial and temporal rule | Cause asserted by evidence external to the classification rules |
+| `G_CORROBORATED` | Two or more independent signal families support the same class without a blocking conflict | Supported operational hypothesis |
+| `G_SINGLE_FAMILY` | One signal family supports the selected class | Weak operational hypothesis |
+| `G_CONTEXT_ONLY` | The class is selected from contextual evidence only | Context-backed display classification requiring caution |
+| `G_CONFLICT` | Available signals disagree | Best-supported class shown with mandatory analyst review |
 
-Raw orbital vectors are agnostic to political borders. Every VIIRS pass over India also captures the Pakistani Punjab, the Irrawaddy valley in Myanmar, the Bangladesh delta, and open-ocean maritime glints. Using official Survey of India boundary polygons:
+Only `G_ASSERTED` may be described in the application as verified. Every other grade remains a hypothesis even though the interface must assign one of the five classes.
 
-> **571,849 transboundary spillover rows (33.72%) were purged.**
-> - 405,200 Myanmar agricultural burns
-> - 39,334 Pakistan sector detections
-> - 16,014 Bangladesh delta events
-> - 111,301 maritime / orbital border artifacts
+### Evidence trace
 
-What remained: **1,124,108 rows** entirely within sovereign Indian territory.
+Each prediction record is designed to carry:
 
-### Pass 2: Spatio-Temporal Deduplication
+- detection identifier and source product;
+- observation time and geometry;
+- prediction stage;
+- features genuinely available at that stage;
+- selected operational class;
+- evidence grade;
+- signal families that fired;
+- source values read by each signal;
+- citation and version of each signal;
+- abstained signals and machine-readable reasons;
+- conflicting signals;
+- superseded prediction stage, when applicable.
 
-VIIRS (Suomi-NPP), VIIRS (NOAA-20), MODIS (Terra), and MODIS (Aqua) fly in overlapping sun-synchronous tracks. A single long-duration fire is frequently recorded three to five times within a four-hour window by different sensors — all logged as separate detection rows.
-
-Solution: hotspots within a **375m spatial radius** and **Δt ≤ 180 minutes** were merged into a single multi-observation thermal event, preserving peak FRP and maximum brightness temperature.
-
-> **24.3% redundant duplicate records eliminated.**
-
-### Pass 3: The Spatial Block Cross-Validation (The Leakage Kill)
-
-This is the most important methodological decision in the entire pipeline. Standard random train/test splitting in geospatial machine learning is a well-documented failure: adjacent 375m VIIRS pixels from the same fire spread across train and test sets. The model memorises the geographic neighbourhood — not the physics — and achieves inflated scores above 98% that collapse in production.
-
-**Our solution:** Implemented **Spatial Block Hashing** using 0.25° × 0.25° geodetic tiles (~27.5 × 27.5 km blocks). Entire tiles are assigned exclusively to Train (70%), Validation (15%), or Test (15%). No pixel in the validation or test set shares a spatial block with any training pixel. This is why our test scores are honest.
-
-### Pass 4: Resolving the Stubble Dominance Trap
-
-Raw Indian satellite hotspots exhibit extreme natural class skew:
-
-```
-Agricultural Crop Stubble   ██████████████████████████████████████ 71.4%
-Wildfire (Forest / Scrub)   █████████████ 23.2%
-Industrial Persistent Heat  ██ 3.9%
-Accidental Factory Fires    ▌ 0.8%
-Gas Flaring (Refineries)    ▌ 0.7%
-```
-
-A naive model trained on unweighted cross-entropy achieves **94.6% overall accuracy** by simply labelling everything as stubble or wildfire — missing 100% of catastrophic accidental fires. This is not a model; it is a look-up table with a confidence score.
-
-Our mitigation: **Cost-Sensitive Multi-Class Focal Loss** with inverse-frequency class weights:
-
-```
-Loss(Focal) = - sum_c [ alpha_c * (1 - p_c)^gamma * log(p_c) ]
-
-where alpha_accidental = 12.5, alpha_gasflare = 14.0, alpha_agri = 1.0
-```
-
-Forcing gradient descent to heavily penalise every missed emergency event.
-
-After all four passes, the clean master corpus: **1,376,035 training rows** of forensically validated satellite telemetry. Combined with the 2026 YTD merged corpus: **~2.2 million genuine physical observations** for retraining.
+The dashboard explanation will be rendered from these structured fields. It will not generate a persuasive story after the classification has already been made.
 
 ---
 
-## 7. Phase 3 — The 2024→2026 Combined Retraining: Three Models, Three Modalities
+## End-to-end architecture
 
-With clean data in hand, the core insight driving our architecture: **every fire is simultaneously a spatial event, a temporal event, and a visual event.** No single model captures all three. We built three independent specialist models and fused their probability outputs.
-
+```text
+Official and agency data sources
+        |
+        v
+Acquisition receipts + immutable hashes
+        |
+        v
+Unit, geometry, timestamp and quality gates
+        |
+        +------------------------+
+        |                        |
+        v                        v
+Historical 2024 corpus      Live observation streams
+        |                        |
+        v                        v
+Evidence-aware labels       Feature-availability ladder
+        |                        |
+        v                        v
+Spatial/temporal split      Stage-specific inference
+        |                        |
+        v                        v
+Audited model training      Revised prediction records
+        |                        |
+        +------------+-----------+
+                     |
+                     v
+          Versioned geospatial store
+                     |
+                     v
+       MapLibre dashboard + evidence inspector
 ```
-                   ┌────────────────────────────────────────────────────┐
-                   │           THERMALWATCH AI: 3-TIER FUSION           │
-                   └────────────────────────────────────────────────────┘
 
- [ Model 1: XGBoost ]        [ Model 2: 1D-CNN ]        [ Model 3: ResNet-18 ]
- ─────────────────────        ──────────────────         ──────────────────────
- 24 Physics Features          Himawari-9 Diurnal          10m ESA WorldCover
- GPS · FRP · Elevation         144-Step Heat Curve          Optical Terrain Chip
- NO2 · SO2 · Gas Flares        Temporal Convolution         (128×128 px ~ 1.3 km²)
- Land Cover · Built-Up
+### Logical units
 
- Standalone F1: 0.814         Standalone F1: 0.852         Standalone F1: 0.869
-        |                             |                             |
-        v                             v                             v
-    P_tab (5D)                  P_temp (5D)                  P_img (5D)
-        └─────────────────────────────┼─────────────────────────────┘
-                                      |
-                         [ 15D Fused Meta-Feature Space ]
-                                      |
-                         [ Phase 6: Stacking Meta-Learner ]
-                          L2-Regularised MLP · Out-of-fold CV
-```
-
-### Model 1 — XGBoost Tabular Spatial Classifier (Phase 3)
-
-**Input:** 24 hand-engineered physical features: GPS, Fire Radiative Power, NASA SRTM 90m elevation, slope, Copernicus CAMS atmospheric chemistry (NO2, SO2, AOD, PM2.5, CO), ESA WorldCover biome, GHSL built-up surface fraction, FSI forest reserve membership, OSM industrial proximity, and distance to 165 sovereign gas flare stacks.
-
-Key engineered features:
-- **Radiance Ratio** = T14 / T15 (mid-IR vs thermal-IR brightness)
-- **FRP Density** = FRP / Pixel Area (MW/km²)
-- **Chemical Combustion Index (CCI)** = NO2 × SO2 × FRP
-- **Topographic Fire Hazard** = Elevation × Slope × (1 − Built-Up Fraction)
-
-**Benchmark:** 98.99% lab accuracy · **91.2% operational field accuracy** under real-world noise.
-
-**Strength:** Geographic discrimination — separating gas flares from forest reserves, cropland from industrial zones. **Weakness:** cannot see the temporal dimension. A gas flare at 3:00 AM and a spontaneous explosion at 3:00 AM look identical if no historical baseline is available.
+1. **Acquisition layer** — retrieves original files or API responses and records provenance.
+2. **Integrity layer** — validates hashes, units, coverage, coordinates, physical bounds and source identity.
+3. **Context layer** — joins only compatible land-cover, terrain, facility, imagery and atmospheric observations.
+4. **Labelling registry** — executes transparent, versioned evidence signals and produces a trace.
+5. **Training pipeline** — builds isolated train and holdout sets after all integrity gates pass.
+6. **Progressive inference service** — emits and later revises predictions as features become available.
+7. **Geospatial store** — retains observation, prediction-stage and provenance records without overwriting history.
+8. **Analyst interface** — displays detections, classes, evidence grades, source freshness and supporting context.
 
 ---
 
-### Model 2 — 1D-CNN Diurnal Temporal Classifier (Phase 4)
+## Progressive live inference
 
-This model solves what XGBoost cannot see. Its input is the **fire's heartbeat**.
+The system does not assume that all datasets arrive together. A prediction is emitted at each eligible stage and is tagged with the exact evidence available at that time.
 
-**Input:** 144-step sequential time series of Fire Radiative Power from JAXA Himawari-9, representing every 10-minute scan across a 24-hour cycle — tensor shape `(B, 1, 144)`.
+| Stage | Typical availability | Intended evidence | Behaviour |
+|---|---|---|---|
+| `S0_STATIC_CONTEXT` | Before an event | Terrain, land cover, sovereign boundary, facility and registry context | Pre-computed context; never treated as proof of an active fire |
+| `S1_GEOSTATIONARY` | Minutes to tens of minutes where physically covered | INSAT or Himawari thermal monitoring and short-term evolution | Early thermal screening with explicit resolution and coverage limits |
+| `S2_POLAR_DETECTION` | After a compatible overpass and product publication | FIRMS/VIIRS brightness, FRP and quality fields | Coordinate-accurate polar thermal detection and primary tabular inference |
+| `S3_PERSISTENCE` | After repeated observations | Multi-pass, multi-day or multi-night recurrence | Distinguishes persistent heat from new or changing behaviour |
+| `S4_GASES_REANALYSIS` | Later, product-dependent | Compatible NO2, SO2, aerosol, weather or reanalysis context | Delayed corroboration; never backfilled with proxy conversions |
 
-What different fire types look like as a temporal signal:
+### Coverage is part of the prediction
 
+- INSAT cadence and spatial resolution are reported as supplied by the source product.
+- Himawari can provide faster observations in its valid field of view, but its western-India blind region is never filled by extrapolation.
+- A coarse sensor failing to detect a small fire is not negative evidence.
+- TROPOMI and reanalysis products may arrive later and must not be presented as real-time thermal observations.
+- Every stage lists `features_available` so later predictions can be compared with earlier ones.
+
+### Progressive inference is not uncontrolled retraining
+
+Incoming live data updates the evidence attached to an event. It does not automatically become a training label.
+
+```text
+New sensor observation
+        -> update or revise the event prediction
+        -> store the new stage and retain the old stage
+        -> do not change model parameters
+
+New audited labelled batch
+        -> pass provenance and leakage gates
+        -> evaluate distribution and unit compatibility
+        -> approve a versioned training update
+        -> retrain or increment the eligible model
 ```
-Agricultural Stubble:  ─────/\─────   Sharp noon spike (12:00–16:00), extinguishes by evening
-Industrial Facility:   ────────────   Flat 24/7 plateau. The boiler never sleeps.
-Wildfire:              ─/───────\──   Multi-day sustained burn with gradual climax
-Accidental Explosion:  ────────|\──   Sudden cliff surge — an abrupt discontinuity in baseline
-```
 
-**Architecture:** Conv1D(k=3, s=1) → BatchNorm → LeakyReLU → MaxPool → Linear
-
-**Training dataset:** 255,282 genuine Himawari-9 diurnal curves across 254 calendar days of 2026.
-
-**Benchmark:** 86.67% accuracy · **100% precision on accidental explosive spikes** (105 MW surge vs 1.6 MW rolling baseline).
+This prevents the system from learning its own earlier predictions as if they were ground truth.
 
 ---
 
-### Model 3 — ResNet-18 Land Cover Vision Classifier (Phase 5)
+## Data sources and roles
 
-**Input:** 128 × 128 pixel multi-spectral optical terrain patches centred on each hotspot. Six spectral bands from Sentinel-2 MSI Level-2A: Blue (490nm), Green (560nm), Red (665nm), NIR (842nm), SWIR-1 (1610nm), SWIR-2 (2190nm). All 2,925 chips were extracted directly from ESA's AWS STAC COG repository — zero synthetic chips permitted.
+The final system treats every source according to what it can actually establish.
 
-**What it sees:** Factory rooftops, concrete aprons, storage tank clusters, asphalt road networks, crop parcel boundaries, forest canopy fragmentation, river riparian buffers.
+| Source family | Examples | Intended role | Not permitted |
+|---|---|---|---|
+| Polar thermal detection | NASA FIRMS VIIRS | Thermal location, brightness, FRP and product quality | Declaring cause from a hot pixel alone |
+| Indian geostationary monitoring | ISRO MOSDAC INSAT-3D/3DR/3DS products | Shorter-interval thermal evolution over supported coverage | Inventing finer spatial detail than the native product |
+| East-Asian geostationary monitoring | JAXA Himawari AHI products | High-cadence temporal context where physically visible | Extrapolating into the western blind region |
+| Land cover | ESA WorldCover | Static surface context | Treating forest or cropland as proof of fire cause |
+| Terrain | NASA SRTM | Elevation and topographic context | Replacing missing raster cells with formulas |
+| Optical imagery | Copernicus Sentinel-2 L2A | Human-review and vision-model context from authentic scenes | Procedurally generated or synthetic image chips |
+| Atmospheric observations | Copernicus Sentinel-5P NO2/SO2 products | Delayed plume and industrial-context evidence | Converting ground concentration into satellite column values using assumed parameters |
+| Reanalysis and weather | ECMWF/Copernicus products | Wind, humidity and environmental context | Presenting modelled fields as direct satellite measurements |
+| Facility and flare context | Government registries and compatible flare products | Known-source context and persistence support | Treating proximity alone as cause attribution |
+| Official incident records | Forest, police, disaster or industrial authorities | External verification when time, place and event identity match | Majority-filling classes without an incident record |
 
-**Architecture:** ImageNet-pretrained ResNet-18, fine-tuned on our authentic Indian satellite chip corpus.
-
-**Benchmark:** 82.71% overall accuracy · **95.22% recall on industrial infrastructure** — the highest industrial site sensitivity of any single model in our stack.
-
----
-
-## 8. Phase 6 — The Meta-Learner: Fusing Everything into One Verdict
-
-After all three specialist models produce their 5-class probability distributions, Phase 6 concatenates them into a **15-dimensional meta-feature vector** and trains an L2-regularised Multi-Layer Perceptron meta-learner using **out-of-fold cross-validation** — the meta-learner never sees the predictions that trained the base models.
-
-```
-X_meta = [ P_XGBoost(5D), P_1D-CNN(5D), P_ResNet-18(5D) ]  ∈ R^15
-```
-
-**Laboratory benchmark** (1,000 balanced satellite hotspots): 999/1,000 correct — **99.90% accuracy**.
-
-**Operational field conditions** (monsoon cloud occlusion, solar glint, rural mixed-boundary pixels, sensor noise): **93.40% validated field accuracy** across the 91.4%–94.8% confidence interval.
-
-**Inference speed:** 59.1 hotspots/second on Apple Silicon M4. Sub-1.4 ms per vector on CPU.
+Ground monitoring stations may be displayed as separate contextual observations. A city station value will not be broadcast across rural detections or used as a substitute for a missing satellite product.
 
 ---
 
-## 9. Phase 7 — Stress Testing the Truth: 5 Forensic Probes on Unseen 2026 Data
+## Context-aware labelling
 
-At this point we had a model. But a model is not a system. The question was: *does it generalise to satellite data it has never seen, collected across nine months of 2026 by real orbital sensors under real atmospheric conditions?*
+The 2024 corpus cannot be trained safely from the legacy target column because that target was produced using formulas and proxy assumptions. The replacement design uses a registry of explicit labelling functions.
 
-We ran five independent forensic probes against **1,122,565 genuinely unseen 2026 NASA FIRMS detections** — data our training set had never touched. No ground truth was shown to the model during testing. Results were collected blind.
+Every labelling function must declare:
 
-| Probe | What It Tests | Key Finding |
-|:---:|:---|:---|
-| **01 · Blind Inference** | Out-of-distribution performance on full 2026 stream | 88.17% overall accuracy; 63.83% balanced accuracy across 1.12M unseen points |
-| **02 · Feature Ablation** | Does the model rely on physics or geographic shortcuts? | Removing `dist_to_flare_km` dropped Gas Flare F1 by −0.6893; removing raw lat/lon **improved** accuracy by +11.48% — confirming coordinate memorisation had been eliminated |
-| **03 · Adversarial Injection** | 10 edge cases: ocean glints, cross-border fires, sensor noise | 6/6 clear-case accuracy (100%); ocean spoofs deterministically rejected as `REJECTED_OOD_WATER_ICE` |
-| **04 · FRP Z-Score Threshold Audit** | Calibrate emergency siren to eliminate false alarms | At FRP ≥ 240 MW + z > 3.0σ: 18/18 true positives (100% recall), **zero false alarms** (100% precision) |
-| **05 · Ground Truth Unlock** | Unlock verified industrial accident records | 18/18 catastrophic industrial disasters in 2026 dataset flagged correctly |
+- a stable identifier and version;
+- its supported class or abstention purpose;
+- the exact source columns it reads;
+- the observation level at which it operates;
+- its temporal and spatial scope;
+- the quantitative claim it encodes;
+- the supporting publication or official documentation;
+- a page or section locator;
+- conditions under which it abstains;
+- incompatibilities and known limitations.
 
-### Temporal Drift Test: Does the Model Stay Accurate Across All 9 Months?
+### Signal families
 
-```
-Month      N           Overall Acc    Bal. Acc    Physical Condition
-──────────────────────────────────────────────────────────────────────
-Jan      101,686         88.08%         72.60%    Stable winter baseline
-Feb      147,454         85.97%         58.49%    Late rabi crop transition
-Mar      286,007         88.58%         66.08%    Spring agricultural burning
-Apr      369,906         88.09%         57.52%    Peak pre-monsoon wildfire surge
-May      175,136         89.88%         66.80%    Summer clearing
-Jun       28,972         86.44%         68.13%    Monsoon onset
-Jul        4,464         89.18%         79.51%    Monsoon (low fire volume)
-Aug        4,963         86.90%         76.56%    Monsoon (low fire volume)
-Sep        3,977         86.22%         73.78%    Post-monsoon transition
-```
+The planned registry covers:
 
-No temporal collapse. The April balanced accuracy dip is not a model failure — it reflects the physical reality that April is peak pre-monsoon wildfire season, dramatically expanding the minority wildfire class against an agricultural-dominated background.
+- thermal magnitude and sensor-quality gates;
+- land-cover context;
+- season and local-calendar context;
+- elevation and topographic context;
+- geostationary temporal behaviour;
+- fixed-point recurrence and persistence;
+- facility and known-source context;
+- atmospheric coincidence;
+- official-record matching;
+- conflict and insufficient-evidence rules.
 
----
+No single contextual signal is allowed to masquerade as verified cause. The selected class is produced by a deterministic, documented aggregation contract, and the evidence grade tells the user how much may safely be concluded.
 
-## 10. The 88% vs. 90% Verdict: Why Our Number is Worth More
+### Circularity and leakage control
 
-You will encounter AI systems claiming 94%, 95%, or even 98% accuracy on fire classification. Here is how those numbers are typically produced:
+If a variable contributes directly to weak-label generation and is also proposed as a model input, the overlap must be handled explicitly. The project must either:
 
-1. **Spatial autocorrelation leakage**: Adjacent 375m pixels from the same fire placed on both sides of a random train/test split. The model memorises the fire's geographic neighbourhood. Scores inflate to 98%+. The model fails on novel orbital passes.
+1. remove the variable from the model feature set for that experiment;
+2. prevent that signal from voting and retain it only in the evidence trace; or
+3. run a separately disclosed sensitivity experiment that does not present self-consistency as external performance.
 
-2. **Coordinate shortcut learning**: Our own initial model — before remediation — memorised that gas flares cluster in the west (Jamnagar, 70°E) and forests in the northeast (Arunachal, 94°E). Dropping raw longitude coordinates from the feature space *improved* performance by +11.48%. The model had been cheating on geography, not learning physics.
-
-3. **Synthetic minority oversampling**: Generating fake "accidental fire" samples by adding Gaussian noise to real industrial data. These synthetic points match training distribution perfectly. They bear no resemblance to real disaster signatures.
-
-4. **Weighted-average accuracy dominated by the 71.4% agricultural class**: A system that detects stubble perfectly and misses every industrial disaster still reports 94%+ accuracy.
-
-> **Our 88.17% overall accuracy and 63.83% balanced accuracy are computed on 1,122,565 physically authentic, geographically isolated, temporally disjoint 2026 detections.** There is no leakage. There are no synthetic samples. Coordinate shortcuts were eliminated. Gas Flare F1 went from 0.0% (zero detections in the initial broken model) to 0.61 after forensic remediation. All 18 catastrophic industrial disasters in the 2026 dataset were flagged with 100% recall and 100% precision.
+The label generator, feature contract and training manifest must record the decision. Silent overlap is a build failure.
 
 ---
 
-## 11. Phase 8 — 2026 Classification: The Moment of Truth
+## Training and data separation
 
-With the model validated across five forensic probes, we ran it end-to-end on **1,122,565 unseen 2026 satellite detections**. Every hotspot received a 5-class probabilistic classification, a SHAP explainability receipt, a 30-day rolling Z-score, and an emergency alert flag if the Z-score crossed the calibrated threshold.
+### Historical split
 
-```
-╔══════════════════════════════════════════════════════════════════════╗
-║      2026 PAN-INDIA CLASSIFICATION SCORECARD (Universal XGBoost)    ║
-╠══════════════════════════╦═══════════╦═══════════╦══════════════════╣
-║  Class                   ║ Precision ║  Recall   ║   F1-Score       ║
-╠══════════════════════════╬═══════════╬═══════════╬══════════════════╣
-║  Wildfire                ║   84.59%  ║   72.70%  ║    0.7820        ║
-║  Agricultural Stubble    ║   93.60%  ║   92.04%  ║    0.9281        ║
-║  Industrial Persistent   ║   70.05%  ║   79.56%  ║    0.7450        ║
-║  Gas Flare               ║  100.00%  ║   43.89%  ║    0.6100        ║
-║  Accidental Fire         ║    0.13%  ║   30.95%  ║    0.0027        ║
-╠══════════════════════════╬═══════════╬═══════════╬══════════════════╣
-║  Overall Accuracy        ║           ║           ║    88.17%        ║
-║  Balanced Accuracy       ║           ║           ║    63.83%        ║
-║  Macro F1                ║           ║           ║    0.6136        ║
-╚══════════════════════════╩═══════════╩═══════════╩══════════════════╝
+The final 2024 dataset will use the requested **80:20 ratio**, but it will not use a random row split.
 
-Emergency Anomaly Engine (Z-score > 3.0 sigma at FRP >= 200 MW):
-  Catastrophic events in dataset : 18
-  Caught by anomaly engine        : 18 / 18  (100% Recall)
-  False alarms generated          :  0 / 18  (100% Precision)
-```
+Nearby pixels from the same incident and repeated observations of the same facility must not appear on both sides of the split. The split therefore combines:
 
-The Gas Flare class — zero detections before forensic remediation — reached **100% precision** after remediation. Every alert raised for a gas flare was a genuine hydrocarbon flare stack. The accidental fire statistical recall (30.95%) reflects the extreme 20,000:1 imbalance (only 42 accidental fires among 1.12 million points) — which is precisely why the Z-score anomaly engine exists as a separate deterministic safety net guaranteeing 100% recall on catastrophic events regardless of the statistical classifier's minority-class sensitivity.
+- spatial grouping by geodetic blocks;
+- temporal isolation for a declared holdout period;
+- incident-level reservation for authority-verified events;
+- duplicate and near-duplicate controls;
+- an immutable split fingerprint saved with every run.
 
-> The 2026 data classified. The unseen stream processed. The emergency engine validated. **ThermalWatch AI works on live satellite data.**
+### Model roles
 
----
+| Model family | Eligible input | Intended contribution | Activation condition |
+|---|---|---|---|
+| **XGBoost** | Audited tabular physical and contextual features | Strong baseline for sparse, mixed and missing tabular inputs | Provenance-certified feature matrix and frozen split |
+| **1D CNN** | Authentic, time-aligned geostationary sequences | Temporal shape, persistence and change behaviour | Genuine sequences with documented cadence and coverage; no fabricated curves |
+| **ResNet** | Authentic, source-identified satellite image chips | Optical surface and infrastructure context | Real imagery with scene provenance, acquisition time and preprocessing manifest |
+| **Fusion layer** | Out-of-fold outputs from eligible base models | Stage-aware combination of available modalities | Base-model compatibility, isolated meta-training data and no missing-modality fabrication |
 
-## 12. The Intelligence Dashboard: Live in Your Browser
+The final system may not have every model available at every live stage. A stage-specific baseline is preferable to inventing an unavailable sequence or image.
 
-**[→ Open the Live Dashboard](https://sih26ekaant.web.app)**
+### Missing values
 
-The prototype was built to let evaluators *experience* the system, not just read about it. Every claim in this document is visible and interactive in the deployed application.
-
-### The Dual-Mode Selector
-
-On launch, you encounter a minimal black-and-white **mode selector overlay** (`ModeSelectorOverlay.tsx`). This is a deliberate design choice — it forces the evaluator to consciously engage with the question: *do you want to understand history, or do you want to see the system working live right now?*
-
-### 2024 Archive Mode
-
-- **1,104,829 classified thermal events** rendered at 60fps via MapLibre WebGL with Uber H3 hexagonal bins and PMTiles vector tile streaming.
-- **365-day temporal scrubber**: drag through any day of 2024 and watch the national heatmap rebuild from the satellite record — the October–November Punjab stubble burning corridor, the winter Jharkhand coal field baseline, the monsoon-suppressed summer.
-- **FSI Forest Reserve overlay**: toggle India's sovereign forest reserves and see exactly which active wildfires overlap protected biomes.
-
-### 2026 Live Mode
-
-- **Default view: last 24 hours.** Each hotspot is colour-coded by freshness: neon green (<2h), amber (2–6h), crimson (6–24h).
-- **Satellite pass countdown**: a live client-side SGP4 propagator calculates real orbital mechanics and displays exactly how many minutes until the next Suomi-NPP or NOAA-20 pass over the currently viewed coordinate.
-- **Z-Score emergency sirens**: clicking the red radio icon triggers the Phase 7 anomaly engine. The Panipat drill fires a 3→2→1 countdown, a 10-second tactical siren, and executes a cinematic fly-to over the IOCL Panipat Petrochemical Complex with a live Huygens-Rothermel fire perimeter spread calculation.
-
-### SHAP Explainability Drawer
-
-Click any hotspot. The inspector drawer (`InspectorDrawer.tsx`) renders an itemised SHAP mathematical receipt — not a confidence score, a proof:
-
-```
-[IOCL Panipat Refinery — Class: Industrial Persistent — Confidence: 0.87]
-  + 0.401  GHSL Built-Up Fraction = 0.94
-  + 0.312  Diurnal 24/7 Persistence (1D-CNN)
-  + 0.183  TROPOMI SO2 = 0.22 mDU
-  - 0.041  FRP Z-Score = 0.61 sigma (within normal ops baseline)
-```
-
-Glass-box AI. Every decision auditable.
-
-### Diurnal Heat Radar
-
-Open the diurnal tab on any hotspot. You will see the raw 144-step Himawari-9 temporal curve — the physical heartbeat that Model 2 classified. A paddy fire shows a sharp 12:00–16:00 spike. A refinery shows a perfectly flat line across all 24 hours.
+- Missing observations remain IEEE missing values or explicit unavailable fields.
+- No mean filling, regional broadcasting or synthetic time series is introduced.
+- A missing sensor caused by cloud, orbital geometry or delayed publication is recorded as such.
+- Models are trained and evaluated for the feature combinations they can genuinely receive in operation.
 
 ---
 
-## 13. Repository Structure
+## Evaluation contract
 
-```
-ThermalWatch-Public/
-├── README.md                              # This document
-├── LICENSE                                # MIT Open Showcase License
-│
-├── frontend/                              # React + TypeScript Intelligence Dashboard
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ModeSelectorOverlay.tsx    # Dual-mode entry point
-│   │   │   ├── LoadingScreen.tsx          # Orbital telemetry readiness loader
-│   │   │   ├── MapCanvas.tsx              # MapLibre WebGL engine + PMTiles
-│   │   │   ├── DiurnalHeatRadar.tsx       # 24h Himawari heat curve visualiser
-│   │   │   ├── InspectorDrawer.tsx        # SHAP explainability receipt drawer
-│   │   │   ├── EmergencySimulationModal.tsx  # Panipat refinery drill
-│   │   │   └── AnomalyAlertModal.tsx      # Z-score emergency siren
-│   │   ├── store/                         # Zustand global state management
-│   │   └── utils/                         # Wind spread models, telemetry formats
-│   ├── public/data/
-│   │   ├── daily_points/                  # 365-day timecoded JSON daily feeds
-│   │   ├── india_matched_hexbins.pmtiles  # Multi-resolution hexbin density tiles
-│   │   └── thermalwatch_india_hotspots.geojson
-│   └── package.json
-│
-└── outputs/
-    ├── thermalwatch_india_hotspots.geojson  # 500-hotspot multi-modal sample
-    └── shap_explainability_summary.json     # Pre-computed SHAP attribution feed
-```
+Three different evaluations are kept separate:
 
-> **Note on private components:** All training pipeline scripts (`pipeline/`), model weight files (`.pth`, `.pkl`), raw satellite datasets (`data/2026_raw/`), and forensic evaluation probes (`evaluation/`) are maintained in the private core repository per sovereign IP protocols. This public repository contains the complete frontend intelligence dashboard and sample demonstration payloads.
+| Name | What it measures | How it may be described |
+|---|---|---|
+| **N1 — Authority-verified external evaluation** | Behaviour on events whose cause is supplied by an independent official record | Primary external evaluation where available |
+| **N2 — Grouped weak-label consistency** | Agreement with weak operational labels on a spatially and temporally isolated holdout | Consistency only; never represented as external ground truth |
+| **N3 — Signal audit** | Coverage, abstention, conflict and recovery behaviour of each labelling function | Evidence-system diagnostic |
+
+The final report will also include:
+
+- per-class confusion matrices where admissible labels exist;
+- per-stage results for `S0` through `S4`;
+- feature-availability and missingness summaries;
+- geography and season slices;
+- conflict and abstention rates;
+- sensitivity tests for any feature that overlaps with a labelling signal;
+- source-manifest and split fingerprints required to reproduce a run.
+
+No single aggregate value will be allowed to hide the behaviour of rare industrial or emergency classes.
 
 ---
 
-## 14. Quickstart
+## Dashboard and GIS experience
 
-Requires **Node.js 18+**.
+The interface is map-first: the geospatial evidence remains primary, while controls and explanations appear as restrained overlays.
+
+### National view
+
+- Pan-India thermal density through PMTiles and vector hexbins;
+- class and physical-parameter colouring;
+- time filtering and daily playback;
+- source freshness and prediction-stage filters;
+- aggregate counts separated by evidence grade.
+
+### District and incident view
+
+- coordinate-level thermal detections;
+- observation time, source satellite, brightness and FRP;
+- available land-cover, elevation and facility context;
+- earlier and later prediction stages for the same event;
+- conflicts and unavailable sources.
+
+### Facility-detail view
+
+- automatic zoom to detailed building and road geometry;
+- low-contrast building footprints beneath the thermal overlay;
+- optional optical/satellite comparison;
+- persistent-source history around the selected coordinate;
+- facility boundaries and registry context where licensing permits;
+- evidence inspector containing class, grade, stage and trace.
+
+### Evidence inspector
+
+The final inspector replaces unsupported legacy scorecards with:
+
+- **Operational class**
+- **Evidence grade**
+- **Prediction stage**
+- **Available sources**
+- **Fired signals**
+- **Abstained signals and reasons**
+- **Conflicts requiring review**
+- **Source provenance and timestamps**
+- **Previous prediction revisions**
+
+### Demonstration and simulation
+
+Emergency drills and animated spread demonstrations are retained only as clearly marked simulations. They must never be mixed with live detections, historical observations or verified incident records.
+
+---
+
+## Scientific data integrity
+
+ThermalWatch AI follows the rule: **no data is better than contaminated data**.
+
+### Non-negotiable requirements
+
+1. No synthetic satellite rows, image chips, temporal curves or minority-class samples.
+2. No mathematical proxy presented under the name of an official sensor product.
+3. No city-centroid or monitoring-station value broadcast across Pan-India detections.
+4. No rectangular bounding-box substitute for the sovereign India geometry where national coverage is claimed.
+5. No merging of incompatible units, sensors, product levels or observation geometries.
+6. No hidden fallback when an API, credential, product or coverage region is unavailable.
+7. No training run before source, label, feature and split manifests pass their gates.
+
+### Required provenance
+
+Every accepted artifact should record:
+
+- publisher and product name;
+- official URL or product identifier;
+- retrieval time;
+- temporal and geographic coverage;
+- file size and cryptographic hash;
+- native units and resolution;
+- extraction and filtering steps;
+- quality flags retained or rejected;
+- downstream rows or features derived from it.
+
+### Failure behaviour
+
+If a required source cannot be obtained or validated, the pipeline stops and reports the unresolved dependency. It does not generate substitute values merely to complete a run.
+
+---
+
+## Project status
+
+| Component | Status | Notes |
+|---|---|---|
+| Full-screen MapLibre GIS dashboard | **Implemented** | Dark/light basemaps, navigation and map-first controls |
+| Pan-India PMTiles and GeoJSON rendering | **Implemented** | Historical visualization assets are bundled in the frontend |
+| Class and telemetry filtering | **Implemented** | Existing labels are visualization inputs pending replacement |
+| Daily 2024 playback | **Implemented** | Bundled day-indexed map assets |
+| Optical/thermal comparison | **Implemented as prototype** | Interface capability; imagery provenance must remain explicit |
+| Emergency drill interface | **Implemented as simulation** | Must remain visibly separated from observations |
+| Evidence library and claim audit | **Completed in development workspace** | Public reproducibility artifacts are to be migrated |
+| Evidence-grade schema | **Designed** | UI and storage integration pending |
+| Versioned labelling-function registry | **In progress** | Legacy target generation will be replaced |
+| Audited 2024 80:20 split | **Planned after label certification** | No model training before the split is frozen |
+| Stage-specific model training | **Pending** | Training is run separately after all gates pass |
+| Progressive `S0`–`S4` inference | **Designed** | Connectors and revision store pending |
+| Authority-record assertion route | **Partially available** | Coverage differs substantially by class and authority |
+| Production alert dispatch | **Out of scope for the prototype** | Human review remains mandatory |
+
+---
+
+## Repository structure
+
+```text
+ThermalWatch-AI/
+├── README.md
+├── LICENSE
+├── outputs/                         # Small exported visualization artifacts
+└── frontend/
+    ├── src/
+    │   ├── components/              # Map, docks, filters, inspector and simulations
+    │   ├── store/                   # Shared application and map state
+    │   ├── lib/                     # External-service initialization
+    │   └── utils/                   # UI-side utilities
+    ├── public/
+    │   ├── data/                    # PMTiles, GeoJSON and daily playback assets
+    │   └── assets/                  # Static browser assets
+    ├── scripts/                     # Visualization-data preparation helpers
+    ├── package.json
+    └── vite.config.ts
+```
+
+The final public structure will add independently testable pipeline packages for acquisition, integrity validation, labelling functions, feature contracts, grouped splitting, stage-aware prediction and evidence-trace storage.
+
+---
+
+## Local development
+
+### Requirements
+
+- Node.js compatible with the version of Vite declared in `frontend/package.json`
+- npm
+- A modern browser with WebGL support
+
+### Run the dashboard
 
 ```bash
-# Clone the public showcase repository
-git clone https://github.com/Vex-15/ThermalWatch-AI.git
+git clone https://github.com/debugonaut/ThermalWatch-AI.git
 cd ThermalWatch-AI/frontend
-
-# Install dependencies
-npm install
-
-# Start local development server
+npm ci
+cp .env.example .env
 npm run dev
 ```
 
-Open `http://localhost:5173`. Choose **2024 Archive Mode** to explore the historical dataset, or **2026 Live Mode** to simulate the real-time telemetry stream.
+Open the local URL printed by Vite.
 
----
+### Optional Firebase configuration
 
-## 15. Sovereign IP Disclosure
+The frontend includes optional Firebase/Firestore integration. Populate the `VITE_FIREBASE_*` fields in `frontend/.env` only for a Firebase project you control. Do not commit credentials.
 
-> **Notice to Evaluators & Hackathon Jury:**
->
-> In compliance with institutional guidelines and SIH sovereign intellectual property protocols, the following are maintained exclusively in our secure private repository:
-> - Raw deep-learning model weight checkpoints (`xgboost_model.pkl`, `diurnal_1dcnn_best.pth`, `resnet18_image_best.pth`, `stacking_meta_model.pkl`)
-> - Proprietary satellite ingestion scripts (ISRO MOSDAC KML parser, JAXA Himawari P-Tree FTP extractor, Sentinel-2 STAC COG chip harvester)
-> - Forensic evaluation probe suite (`evaluation/probe_01` through `probe_05`)
-> - Raw training datasets (1.37M row 2024 master corpus, 2026 bulk acquisition archive)
->
-> Full end-to-end model verification, blind-test probe execution, and real-time inference streaming are demonstrated live through the [deployed prototype](https://sih26ekaant.web.app) and during the official jury evaluation session.
->
-> *We do not hide our results behind the IP shield. We hide our methods behind it. The results are the live dashboard. Come test it.*
-
----
-
-<div align="center">
-
-**ThermalWatch AI** · Smart India Hackathon 2026 · National Defence & Disaster Security  
-Trained on 2.2M authentic satellite records · Validated on 1.12M unseen 2026 points  
-**93.40% Operational Field Accuracy · 88.17% Zero-Leakage Macro F1 on Live 2026 Data**
-
-</div> (React + TypeScript)
-│   ├── src/                             # Source Code
-│   │   ├── components/                  # ModeSelectorOverlay, MapCanvas, DiurnalHeatRadar, Modals
-│   │   ├── store/                       # Zustand Global State Management
-│   │   └── utils/                       # Physical Wind Spread Models & Telemetry Formats
-│   ├── public/data/                     # Demonstration Payloads & 365-Day Daily Playback Points
-│   │   ├── daily_points/                # Timecoded JSON feeds (Jan 1 - Dec 31)
-│   │   ├── india_matched_hexbins.pmtiles# Multi-resolution hexbin density tiles
-│   │   └── thermalwatch_india_hotspots.geojson
-│   └── package.json                     # Frontend build manifest
-│
-└── outputs/                             # 🗺️ Web-Ready Sample Feeds
-    ├── thermalwatch_india_hotspots.geojson # 500-Hotspot Multi-Modal Sample
-    └── shap_explainability_summary.json    # Pre-computed SHAP Attribution Feed
-```
-
----
-
-## 11. Quickstart: Running the Public Dashboard Locally
-
-Ensure you have **Node.js 18+** installed.
+### Validation commands
 
 ```bash
-# 1. Clone the showcase repository
-git clone https://github.com/Vex-15/ThermalWatch-AI.git
-cd ThermalWatch-AI/frontend
-
-# 2. Install dependencies
-npm install
-
-# 3. Launch local development server
-npm run dev
+cd frontend
+npm run lint
+npm run build
 ```
 
-Open `http://localhost:5173` in your browser. Choose either **2024 Archive Mode** or **2026 Live Mode** from the selector screen.
+### Data note
+
+The repository includes large static map assets for demonstration. These files are visualization artifacts and are not, by themselves, a certified training release. A final training release must include its own source manifests, label registry version, feature contract and split fingerprint.
 
 ---
 
-## 12. Sovereign Intellectual Property Disclosure
+## Limitations
 
-> **Notice to Evaluators & Hackathon Jury**:  
-> In compliance with institutional guidelines and SIH sovereign intellectual property rules, raw deep-learning model checkpoints (`.pth`, `.pkl`), proprietary satellite extraction scripts (ISRO MOSDAC KML parser, Sentinel-5P TROPOMI harvester), and sovereign feature matrix training scripts are securely archived in our private core repository.
->
-> Full end-to-end model verification, blind-test probe execution, and real-time inference streaming are demonstrated live through the [deployed web prototype](https://sih26ekaant.web.app) and during the official jury evaluation session.
+- Public, incident-level cause records are uneven across classes and regions.
+- A satellite thermal anomaly may cover multiple activities within one pixel.
+- Cloud, smoke, viewing geometry, product latency and sensor resolution affect availability.
+- Static land cover and facility proximity provide context but do not prove what burned.
+- Persistent heat can indicate several industrial processes; it is not automatically a gas flare.
+- Atmospheric products are delayed and may not be attributable to a single source.
+- Himawari coverage is physically limited over western India.
+- Optical imagery may be cloud-obscured or temporally separated from the thermal event.
+- A forced five-class output is an operational requirement, not a guarantee of verified cause.
+- `G_CONTEXT_ONLY` and `G_CONFLICT` outputs require especially cautious interpretation.
+- Suspected industrial accidents require analyst and authority confirmation.
+
+---
+
+## Roadmap
+
+```text
+Evidence library and admissibility audit
+        -> finalise operational signal weights and conflict policy
+        -> implement the labelling-function registry
+        -> generate evidence-graded 2024 labels
+        -> audit coverage, abstentions and conflicts
+        -> freeze the spatial-temporal 80:20 split
+        -> build stage-specific feature matrices
+        -> train eligible XGBoost, 1D-CNN and ResNet models
+        -> evaluate N1, N2 and N3 separately
+        -> implement progressive prediction revisions
+        -> replace legacy dashboard scorecards with evidence traces
+        -> add facility-detail building geometry and source freshness
+        -> publish reproducibility manifests and limitations
+```
+
+The project will be considered ready for scientific presentation when the public dashboard, evidence contract, data manifests, training inputs and displayed claims all describe the same system.
+
+---
+
+## Responsible use
+
+ThermalWatch AI is an academic and competition prototype. Its outputs should be treated as screening and prioritization information. They must not be used as the sole basis for emergency dispatch, regulatory enforcement, criminal attribution or public claims about a facility or individual.
+
+## License
+
+This repository is released under the [MIT License](LICENSE). Third-party satellite products, basemaps and derived data retain their respective licences, attribution requirements and access conditions.
