@@ -35,10 +35,11 @@ No model-performance scores are reported in this README. They will be published 
 11. [Dashboard and GIS experience](#dashboard-and-gis-experience)
 12. [Scientific data integrity](#scientific-data-integrity)
 13. [Project status](#project-status)
-14. [Repository structure](#repository-structure)
-15. [Local development](#local-development)
-16. [Limitations](#limitations)
-17. [Roadmap](#roadmap)
+14. [Documentation checkpoints and repository boundary](#documentation-checkpoints-and-repository-boundary)
+15. [Repository structure](#repository-structure)
+16. [Local development](#local-development)
+17. [Limitations](#limitations)
+18. [Roadmap](#roadmap)
 
 ---
 
@@ -461,6 +462,35 @@ If a required source cannot be obtained or validated, the pipeline stops and rep
 | Progressive `S0`–`S4` inference | **Designed** | Connectors and revision store pending |
 | Authority-record assertion route | **Partially available** | Coverage differs substantially by class and authority |
 | Production alert dispatch | **Out of scope for the prototype** | Human review remains mandatory |
+
+---
+
+## Documentation checkpoints and repository boundary
+
+This README is the living public record of the project. Updating it is a required part of completing a major checkpoint, not an optional documentation task left until the end.
+
+### Mandatory README checkpoint updates
+
+The README must be reviewed and updated after each of the following:
+
+- the labelling-function registry, evidence grades or conflict policy is frozen;
+- a historical label release is generated or materially revised;
+- the leakage audit and grouped `80:20` split are frozen;
+- an XGBoost, 1D-CNN, ResNet or fusion-model training run is accepted;
+- a model evaluation gate is completed;
+- a live data connector or progressive inference stage is integrated;
+- the evidence-trace schema or dashboard interpretation changes;
+- a major dataset, model artifact, interface release or project limitation changes.
+
+Each checkpoint update must record the date or release identifier, what changed, the current status, the relevant manifest or artifact version, known limitations and the next checkpoint. Model results may be added only after the corresponding data, split and evaluation gates have passed; exploratory scores must not be presented as final performance.
+
+### Public and private repository roles
+
+This public repository communicates **what ThermalWatch AI is, what the team has completed and what has been released**. It may contain the public interface, architecture summary, verified project status, selected demonstration assets, released results, provenance manifests and limitations needed to understand the system responsibly.
+
+The private development repository contains the unreleased implementation details needed to reproduce or modify the scientific pipeline, including internal acquisition workflows, labelling-function implementation, training code and configurations, development notebooks, internal audit material and protected operational settings. Credentials, API keys, deployment secrets, restricted or licensed source data and private evidence documents must never be committed to this public repository.
+
+Keeping those implementation details private reduces direct copying of the unreleased pipeline, but it does not make public files non-copyable. This repository is public and currently MIT-licensed, so its published contents may be used under that licence. Any future change to repository visibility or licensing requires a separate team decision. Even when implementation remains private, public scientific claims must retain enough provenance, method description and stated limitations to be independently audited.
 
 ---
 
