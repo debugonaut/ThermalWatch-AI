@@ -203,7 +203,7 @@ The system does not assume that all datasets arrive together. A prediction is em
 | Stage | Typical availability | Intended evidence | Behaviour |
 |---|---|---|---|
 | `S0_STATIC_CONTEXT` | Before an event | Terrain, land cover, sovereign boundary, facility and registry context | Pre-computed context; never treated as proof of an active fire |
-| `S1_GEOSTATIONARY` | Minutes to tens of minutes where physically covered | INSAT or Himawari thermal monitoring and short-term evolution | Early thermal screening with explicit resolution and coverage limits |
+| `S1_GEOSTATIONARY` | Minutes to tens of minutes where physically covered | INSAT thermal monitoring and short-term evolution | Early thermal screening with explicit resolution and coverage limits |
 | `S2_POLAR_DETECTION` | After a compatible overpass and product publication | FIRMS/VIIRS brightness, FRP and quality fields | Coordinate-accurate polar thermal detection and primary tabular inference |
 | `S3_PERSISTENCE` | After repeated observations | Multi-pass, multi-day or multi-night recurrence | Distinguishes persistent heat from new or changing behaviour |
 | `S4_GASES_REANALYSIS` | Later, product-dependent | Compatible NO2, SO2, aerosol, weather or reanalysis context | Delayed corroboration; never backfilled with proxy conversions |
@@ -211,7 +211,6 @@ The system does not assume that all datasets arrive together. A prediction is em
 ### Coverage is part of the prediction
 
 - INSAT cadence and spatial resolution are reported as supplied by the source product.
-- Himawari can provide faster observations in its valid field of view, but its western-India blind region is never filled by extrapolation.
 - A coarse sensor failing to detect a small fire is not negative evidence.
 - TROPOMI and reanalysis products may arrive later and must not be presented as real-time thermal observations.
 - Every stage lists `features_available` so later predictions can be compared with earlier ones.
@@ -245,7 +244,6 @@ The final system treats every source according to what it can actually establish
 |---|---|---|---|
 | Polar thermal detection | NASA FIRMS VIIRS | Thermal location, brightness, FRP and product quality | Declaring cause from a hot pixel alone |
 | Indian geostationary monitoring | ISRO MOSDAC INSAT-3D/3DR/3DS products | Shorter-interval thermal evolution over supported coverage | Inventing finer spatial detail than the native product |
-| East-Asian geostationary monitoring | JAXA Himawari AHI products | High-cadence temporal context where physically visible | Extrapolating into the western blind region |
 | Land cover | ESA WorldCover | Static surface context | Treating forest or cropland as proof of fire cause |
 | Terrain | NASA SRTM | Elevation and topographic context | Replacing missing raster cells with formulas |
 | Optical imagery | Copernicus Sentinel-2 L2A | Human-review and vision-model context from authentic scenes | Procedurally generated or synthetic image chips |
@@ -687,7 +685,6 @@ The repository includes large static map assets for demonstration. These files a
 - Static land cover and facility proximity provide context but do not prove what burned.
 - Persistent heat can indicate several industrial processes; it is not automatically a gas flare.
 - Atmospheric products are delayed and may not be attributable to a single source.
-- Himawari coverage is physically limited over western India.
 - Optical imagery may be cloud-obscured or temporally separated from the thermal event.
 - A forced five-class output is an operational requirement, not a guarantee of verified cause.
 - `G_CONTEXT_ONLY` and `G_CONFLICT` outputs require especially cautious interpretation.

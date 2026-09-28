@@ -327,7 +327,7 @@ export function InspectorDrawer() {
 
         {/* §2 – Fire Radiative Power */}
         <section>
-          <SectionLabel>Fire Intensity (Himawari-9 + VIIRS)</SectionLabel>
+          <SectionLabel>Fire Intensity (INSAT-3D + VIIRS)</SectionLabel>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <BarRow label="Mean FRP" value={c.avgFrp}  max={Math.max(c.maxFrp, 200)} color={meta.color} unit=" MW" />
             <BarRow label="Peak FRP" value={c.maxFrp}  max={Math.max(c.maxFrp, 200)} color={risk.color}  unit=" MW" />
@@ -448,7 +448,7 @@ export function InspectorDrawer() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {[
               { dot: '#ef4444', label: 'master_2024_training.csv', desc: '13 tabular features · 2024 fire season' },
-              { dot: '#60a5fa', label: 'Himawari-9',               desc: '10-min cadence thermal time-series (1D-CNN)' },
+              { dot: '#60a5fa', label: 'INSAT-3D / 3DR',               desc: 'Geostationary thermal time-series (1D-CNN)' },
               { dot: '#a78bfa', label: 'ESA WorldCover 10m',        desc: 'Land-cover tiles · ResNet-18 spatial model' },
               { dot: '#4ade80', label: 'Sentinel-5P / TROPOMI',     desc: 'NO₂ · SO₂ atmospheric columns' },
             ].map(src => (
