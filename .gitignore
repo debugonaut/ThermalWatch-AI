@@ -39,3 +39,6 @@ __pycache__/
 *.h5
 *.csv
 !frontend/public/data/*.csv
+
+# CDN-hosted map archives (each under GitHub's 100 MB file limit)
+!cdn/*.pmtiles
